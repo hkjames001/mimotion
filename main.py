@@ -229,16 +229,13 @@ class MiMotionRunner:
 
         response = requests.post(url, data=data, headers=head).json()
         # print(response)
-        
+        result = response['message'] + f"微信步数: {step}  "
+        server_send(result)
+        # print(result)
         return f"修改步数（{step}）[" + response['message'] + "]", True
 
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
-    # 推送
-    now1 = datetime.datetime.now().strftime("%m月%d日 %H:%M")
-    server_ur2 = "https://api.day.app/BUZUyGoHy6dkjJYwNwkdgU"+"/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
-    requests.post(server_ur2)
-
     # 判断是否需要pushplus推送
     if PUSH_PLUS_TOKEN is not None and PUSH_PLUS_TOKEN != '' and PUSH_PLUS_TOKEN != 'NO':
         if PUSH_PLUS_HOUR is not None and PUSH_PLUS_HOUR.isdigit():
@@ -259,7 +256,12 @@ def push_to_push_plus(exec_results, summary):
             html += '</ul>'
         push_plus(f"{format_now()} 刷步数通知", html)
 
-
+# 推送
+def server_send(msg):
+    now = datetime.datetime.now().strftime("%m月%d日 %H:%M")
+    server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now+'?'+'group=光与影运动步数'
+    requests.post(server_ur2)
+    
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
     if idx is not None:
