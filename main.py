@@ -229,9 +229,6 @@ class MiMotionRunner:
 
         response = requests.post(url, data=data, headers=head).json()
         # print(response)
-        resultt = response['message'] + f"微信步数: {step}  "
-        server_send(resultt)
-        # print(resultt)
         return f"修改步数（{step}）[" + response['message'] + "]", True
 
 # 启动主函数
