@@ -257,7 +257,7 @@ def push_to_push_plus(exec_results, summary):
         push_plus(f"{format_now()} 刷步数通知", html)
 
 # 推送
-def server_send(msg):
+def server_send(msgg):
     now1 = datetime.datetime.now().strftime("%m月%d日 %H:%M")
     server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
     requests.post(server_ur2)
