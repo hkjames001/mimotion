@@ -1,13 +1,14 @@
 # -*- coding: utf8 -*-
 import math
 import traceback
+import time, datetime
 from datetime import datetime
 import pytz
 
 import json
 import random
 import re
-import time
+
 import os
 
 import requests
@@ -231,7 +232,7 @@ class MiMotionRunner:
         # print(response)
         
         #推送
-        now1 = datetime.datetime.now().strftime("%m月%d日 %H:%M")
+        now1 = format_now().strftime("%m月%d日 %H:%M")
         server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
         requests.post(server_ur2)
         
