@@ -229,14 +229,15 @@ class MiMotionRunner:
 
         response = requests.post(url, data=data, headers=head).json()
         # print(response)
+        # 推送
+        now = datetime.datetime.now().strftime("%m月%d日 %H:%M")
+        server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now+'?'+'group=光与影运动步数'
+        requests.post(server_ur2)
         return f"修改步数（{step}）[" + response['message'] + "]", True
 
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
-# 推送
-    now = datetime.datetime.now().strftime("%m月%d日 %H:%M")
-    server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now+'?'+'group=光与影运动步数'
-    requests.post(server_ur2)
+
 
 
     # 判断是否需要pushplus推送
