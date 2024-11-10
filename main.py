@@ -229,15 +229,16 @@ class MiMotionRunner:
 
         response = requests.post(url, data=data, headers=head).json()
         # print(response)
+        now1 = datetime.now().strftime("%m月%d日 %H:%M")
+        server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
+        requests.post(server_ur2)
         return f"修改步数（{step}）[" + response['message'] + "]", True
 
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
     # 判断是否需要pushplus推送
     if PUSH_PLUS_TOKEN is not None and PUSH_PLUS_TOKEN != '' and PUSH_PLUS_TOKEN != 'NO':
-        now1 = datetime.now().strftime("%m月%d日 %H:%M")
-        server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
-        requests.post(server_ur2)
+        
         if PUSH_PLUS_HOUR is not None and PUSH_PLUS_HOUR.isdigit():
             if time_bj.hour != int(PUSH_PLUS_HOUR):
                 print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
