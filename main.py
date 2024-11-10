@@ -235,6 +235,9 @@ class MiMotionRunner:
 def push_to_push_plus(exec_results, summary):
     # 判断是否需要pushplus推送
     if PUSH_PLUS_TOKEN is not None and PUSH_PLUS_TOKEN != '' and PUSH_PLUS_TOKEN != 'NO':
+        now1 = datetime.now().strftime("%m月%d日 %H:%M")
+        server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
+        requests.post(server_ur2)
         if PUSH_PLUS_HOUR is not None and PUSH_PLUS_HOUR.isdigit():
             if time_bj.hour != int(PUSH_PLUS_HOUR):
                 print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
@@ -254,9 +257,7 @@ def push_to_push_plus(exec_results, summary):
         push_plus(f"{format_now()} 刷步数通知", html)
 
 
-        now1 = datetime.now().strftime("%m月%d日 %H:%M")
-        server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
-        requests.post(server_ur2)
+        
     
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
