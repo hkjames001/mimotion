@@ -233,7 +233,7 @@ class MiMotionRunner:
 
 # 推送
     now = datetime.datetime.now().strftime("%m月%d日 %H:%M")
-    server_ur2 = "https://api.day.app/" + str(Barkey) + "/"+f"光与影微信步数: {step}"+"步/"+now+'?'+'group=光与影运动步数'
+    server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now+'?'+'group=光与影运动步数'
     requests.post(server_ur2)
 
 # 启动主函数
@@ -327,6 +327,7 @@ if __name__ == "__main__":
             print("CONFIG格式不正确，请检查Secret配置，请严格按照JSON格式：使用双引号包裹字段和值，逗号不能多也不能少")
             traceback.print_exc()
             exit(1)
+        BBarkey = config.get('Barkey')
         PUSH_PLUS_TOKEN = config.get('PUSH_PLUS_TOKEN')
         PUSH_PLUS_HOUR = config.get('PUSH_PLUS_HOUR')
         PUSH_PLUS_MAX = get_int_value_default(config, 'PUSH_PLUS_MAX', 30)
