@@ -24,7 +24,9 @@ def get_beijing_time():
 # 格式化时间
 def format_now():
     return get_beijing_time().strftime("%Y-%m-%d %H:%M:%S")
-
+    
+def format_now0():
+    return get_beijing_time().strftime("%m月%d日 %H:%M")
 
 # 获取默认值转int
 def get_int_value_default(_config: dict, _key, default):
@@ -232,7 +234,7 @@ class MiMotionRunner:
         # print(response)
         
         #推送
-        now1 = format_now().strftime("%m月%d日 %H:%M")
+        now1 = format_now0()
         server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
         requests.post(server_ur2)
         
