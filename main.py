@@ -229,9 +229,9 @@ class MiMotionRunner:
 
         response = requests.post(url, data=data, headers=head).json()
         # print(response)
-        result = response['message'] + f"微信步数: {step}  "
-        server_send(result)
-        # print(result)
+        resultt = response['message'] + f"微信步数: {step}  "
+        server_send(resultt)
+        # print(resultt)
         return f"修改步数（{step}）[" + response['message'] + "]", True
 
 # 启动主函数
@@ -256,7 +256,11 @@ def push_to_push_plus(exec_results, summary):
             html += '</ul>'
         push_plus(f"{format_now()} 刷步数通知", html)
 
-
+# 推送
+def server_send(msg):
+    now1 = datetime.datetime.now().strftime("%m月%d日 %H:%M")
+    server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
+    requests.post(server_ur2)
     
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
