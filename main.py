@@ -147,8 +147,8 @@ class MiMotionRunner:
         except:
             self.log_str += f"获取accessToken异常:{traceback.format_exc()}\n"
             return 0, 0
-        # print("access_code获取成功！")
-        # print(code)
+        print("access_code获取成功！")
+        print(code)
 
         url2 = "https://account.huami.com/v2/client/login"
         if self.is_phone:
