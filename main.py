@@ -235,7 +235,7 @@ class MiMotionRunner:
         
         #推送
         now1 = format_now0()
-        server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=github光与影运动步数'
+        server_ur2 = "https://api.day.app/" + str(BBarkey) + "/"+f"github光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
         requests.post(server_ur2)
         
         return f"修改步数（{step}）[" + response['message'] + "]", True
