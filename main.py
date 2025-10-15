@@ -9,11 +9,9 @@ import urllib
 import json
 import random
 import re
-
 import os
-
 import requests
-
+from Crypto.Cipher import AES
 
 # 获取北京时间
 def get_beijing_time():
