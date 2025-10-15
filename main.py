@@ -122,24 +122,38 @@ class MiMotionRunner:
     # 登录
     def login(self):
 
-        url1 = "https://api-user.huami.com/registrations/" + self.user + "/tokens"
-        login_headers = {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2",
-            "X-Forwarded-For": self.fake_ip_addr
+        headers = {
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "user-agent": "MiFit6.14.0 (M2007J1SC; Android 12; Density/2.75)",
+            "app_name": "com.xiaomi.hm.health",
+            "appname": "com.xiaomi.hm.health",
+            "appplatform": "android_phone",
+            "x-hm-ekv": "1",
+            "hm-privacy-ceip": "false"
         }
-        data1 = {
-            "client_id": "HuaMi",
-            "password": f"{self.password}",
-            "redirect_uri": "https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html",
-            "token": "access"
+
+        login_data = {
+            'emailOrPhone': self.user,
+            'password': self.password,
+            'state': 'REDIRECTION',
+            'client_id': 'HuaMi',
+            'country_code': 'CN',
+            'token': 'access',
+            'redirect_uri': 'https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html',
         }
-        r1 = requests.post(url1, data=data1, headers=login_headers, allow_redirects=False)
+        # 等同 http_build_query，默认使用 quote_plus 将空格转为 '+'
+        query = urllib.parse.urlencode(login_data)
+        plaintext = query.encode('utf-8')
+        # 执行请求加密
+        cipher_data = encrypt_data(plaintext)
+
+        url1 = 'https://api-user.zepp.com/v2/registrations/tokens'
+        r1 = requests.post(url1, data=cipher_data, headers=headers, allow_redirects=False)
         if r1.status_code != 303:
             self.log_str += "登录异常，status: %d\n" % r1.status_code
             return 0, 0
-        location = r1.headers["Location"]
         try:
+            location = r1.headers["Location"]
             code = get_access_token(location)
             if code is None:
                 self.log_str += "获取accessToken失败\n"
@@ -178,7 +192,7 @@ class MiMotionRunner:
                 "source": "com.xiaomi.hm.health",
                 "third_name": "email",
             }
-        r2 = requests.post(url2, data=data2, headers=login_headers).json()
+        r2 = requests.post(url2, data=data2, headers=headers).json()
         login_token = r2["token_info"]["login_token"]
         # print("login_token获取成功！")
         # print(login_token)
@@ -187,6 +201,7 @@ class MiMotionRunner:
         # print(userid)
 
         return login_token, userid
+
 
     # 获取app_token
     def get_app_token(self, login_token):
