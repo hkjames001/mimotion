@@ -18,7 +18,16 @@ def get_beijing_time():
     target_timezone = pytz.timezone('Asia/Shanghai')
     # 获取当前时间
     return datetime.now().astimezone(target_timezone)
-
+    
+# 参考自 https://github.com/hanximeng/Zepp_API/blob/main/index.php
+def encrypt_data(plain: bytes) -> bytes:
+    key = b'xeNtBVqzDc6tuNTh'  # 16 bytes
+    iv = b'MAAAYAAAAAAAAABg'  # 16 bytes
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    # AES-128-CBC 使用 PKCS#7 填充。
+    pad_len = AES.block_size - (len(plain) % AES.block_size)
+    padded = plain + bytes([pad_len]) * pad_len
+    return cipher.encrypt(padded)
 
 # 格式化时间
 def format_now():
