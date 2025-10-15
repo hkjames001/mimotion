@@ -11,7 +11,7 @@ import random
 import re
 import os
 import requests
-from Crypto.Cipher import AES
+
 
 # 获取北京时间
 def get_beijing_time():
@@ -19,15 +19,7 @@ def get_beijing_time():
     # 获取当前时间
     return datetime.now().astimezone(target_timezone)
     
-# 参考自 https://github.com/hanximeng/Zepp_API/blob/main/index.php
-def encrypt_data(plain: bytes) -> bytes:
-    key = b'xeNtBVqzDc6tuNTh'  # 16 bytes
-    iv = b'MAAAYAAAAAAAAABg'  # 16 bytes
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    # AES-128-CBC 使用 PKCS#7 填充。
-    pad_len = AES.block_size - (len(plain) % AES.block_size)
-    padded = plain + bytes([pad_len]) * pad_len
-    return cipher.encrypt(padded)
+
 
 # 格式化时间
 def format_now():
@@ -149,14 +141,10 @@ class MiMotionRunner:
             'token': 'access',
             'redirect_uri': 'https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html',
         }
-        # 等同 http_build_query，默认使用 quote_plus 将空格转为 '+'
-        query = urllib.parse.urlencode(login_data)
-        plaintext = query.encode('utf-8')
-        # 执行请求加密
-        cipher_data = encrypt_data(plaintext)
+
 
         url1 = 'https://api-user.zepp.com/v2/registrations/tokens'
-        r1 = requests.post(url1, data=cipher_data, headers=headers, allow_redirects=False)
+        r1 = requests.post(url1, headers=headers, allow_redirects=False)
         if r1.status_code != 303:
             self.log_str += "登录异常，status: %d\n" % r1.status_code
             return 0, 0
