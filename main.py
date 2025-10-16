@@ -4,14 +4,14 @@ import traceback
 import time, datetime
 from datetime import datetime
 import pytz
-import urllib
+import uuid
 
 import json
 import random
 import re
 import os
 import requests
-from util.aes_help import  encrypt_data, decrypt_data
+
 import util.zepp_helper as zeppHelper
 
 # 获取北京时间
