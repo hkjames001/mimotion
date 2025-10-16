@@ -281,6 +281,18 @@ def execute():
 if __name__ == "__main__":
     # 北京时间
     time_bj = get_beijing_time()
+    encrypt_support = False
+    user_tokens = dict()
+    if os.environ.__contains__("AES_KEY") is True:
+        aes_key = os.environ.get("AES_KEY")
+        if aes_key is not None:
+            aes_key = aes_key.encode('utf-8')
+            if len(aes_key) == 16:
+                encrypt_support = True
+        if encrypt_support:
+            user_tokens = prepare_user_tokens()
+        else:
+            print("AES_KEY未设置或者无效 无法使用加密保存功能")
     if os.environ.__contains__("CONFIG") is False:
         print("未配置CONFIG变量，无法执行")
         exit(1)
