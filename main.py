@@ -58,6 +58,8 @@ def get_beijing_time():
 def format_now():
     return get_beijing_time().strftime("%Y-%m-%d %H:%M:%S")
 
+def format_now0():
+    return get_beijing_time().strftime("%m月%d日 %H:%M")
 
 # 获取时间戳
 def get_time():
