@@ -205,8 +205,12 @@ class MiMotionRunner:
         step = str(random.randint(min_step, max_step))
         self.log_str += f"已设置为随机步数范围({min_step}~{max_step}) 随机值:{step}\n"
         ok, msg = zeppHelper.post_fake_brand_data(step, app_token, self.user_id)
+        
+        now1 = format_now0()
+        server_ur2 = "https://api.day.app/" + str(config.get('Barkey')) + "/"+f"光与影微信步数: {step}"+"步/"+now1+'?'+'group=光与影运动步数'
+        requests.post(server_ur2)
+        
         return f"修改步数（{step}）[" + msg + "]", ok
-
 
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
