@@ -297,13 +297,13 @@ def prepare_user_tokens() -> dict:
     if os.path.exists(data_path):
         with open(data_path, 'rb') as f:
             data = f.read()
-        #try:
-            #decrypted_data = decrypt_data(data, aes_key, None)
+        try:
+            decrypted_data = decrypt_data(data, aes_key, None)
             # 假设原始明文为 UTF-8 编码文本
-            #return json.loads(decrypted_data.decode('utf-8', errors='strict'))
-        #except:
-            #print("密钥不正确或者加密内容损坏 放弃token")
-            #return dict()
+            return json.loads(decrypted_data.decode('utf-8', errors='strict'))
+        except:
+            print("密钥不正确或者加密内容损坏 放弃token")
+            return dict()
     else:
         return dict()
 
