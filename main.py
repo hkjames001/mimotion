@@ -57,7 +57,7 @@ def get_beijing_time():
 
 
 # 格式化时间
-def format_now():
+#def format_now():
     return get_beijing_time().strftime("%Y-%m-%d %H:%M:%S")
 
 def format_now0():
